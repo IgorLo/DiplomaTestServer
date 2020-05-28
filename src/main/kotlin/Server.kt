@@ -4,33 +4,35 @@ import io.javalin.apibuilder.ApiBuilder.*
 import server.Requests
 
 fun main() {
-    val app = Javalin.create()
+    val app = Javalin.create { config ->
+        config.enableCorsForAllOrigins()
+    }
 
     app.routes {
         path("students") {
-            get {ctx -> ctx.result(Controller.getAllStudents())}
+            get { ctx -> ctx.result(Controller.getAllStudents()) }
             path(":id") {
-                get {ctx -> ctx.result(Controller.getStudent(ctx.pathParam("id").toLong()))}
+                get { ctx -> ctx.result(Controller.getStudent(ctx.pathParam("id").toLong())) }
             }
         }
         path("groups") {
-            get {ctx -> ctx.result(Controller.getAllGroups())}
+            get { ctx -> ctx.result(Controller.getAllGroups()) }
             path(":id") {
-                get {ctx -> ctx.result(Controller.getGroup(ctx.pathParam("id").toLong()))}
+                get { ctx -> ctx.result(Controller.getGroup(ctx.pathParam("id").toLong())) }
             }
         }
         path("sets") {
-            get {ctx -> ctx.result(Controller.getAllStudentSets())}
-            post {ctx ->
+            get { ctx -> ctx.result(Controller.getAllStudentSets()) }
+            post { ctx ->
                 val request = Klaxon().parse<Requests.NewSet>(ctx.body())
-                if (request == null){
+                if (request == null) {
                     ctx.status(500)
                 } else {
                     Controller.addNewSet(request)
                 }
             }
             path(":id") {
-                get {ctx -> ctx.result(Controller.getStudentSet(ctx.pathParam("id").toLong()))}
+                get { ctx -> ctx.result(Controller.getStudentSet(ctx.pathParam("id").toLong())) }
             }
         }
     }
