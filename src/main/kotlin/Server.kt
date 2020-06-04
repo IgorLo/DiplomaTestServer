@@ -2,6 +2,7 @@ import com.beust.klaxon.Klaxon
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
 import server.Requests
+import storage.StorageHelper
 
 fun main() {
     val app = Javalin.create { config ->
@@ -33,6 +34,36 @@ fun main() {
             }
             path(":id") {
                 get { ctx -> ctx.result(Controller.getStudentSet(ctx.pathParam("id").toLong())) }
+            }
+        }
+        path("school") {
+            get { ctx -> ctx.result(Controller.getAllSchools()) }
+            path(":id") {
+                get { ctx -> ctx.result(Controller.getSchool(ctx.pathParam("id").toLong())) }
+            }
+        }
+        path("activity") {
+            get { ctx -> ctx.result(Controller.getAllActivities()) }
+            path(":id") {
+                get { ctx -> ctx.result(Controller.getActivity(ctx.pathParam("id").toLong())) }
+            }
+        }
+        path("teachers") {
+            get { ctx -> ctx.result(Controller.getAllTeachers()) }
+            path(":id") {
+                get { ctx -> ctx.result(Controller.getTeacher(ctx.pathParam("id").toLong())) }
+            }
+        }
+        path("plans") {
+            get { ctx -> ctx.result(Controller.getAllPlans()) }
+            path(":id") {
+                get { ctx -> ctx.result(Controller.getPlan(ctx.pathParam("id").toLong())) }
+            }
+        }
+        path("tasks") {
+            get { ctx -> ctx.result(Controller.getAllPlanTasks()) }
+            path(":id") {
+                get { ctx -> ctx.result(Controller.getPlanTask(ctx.pathParam("id").toLong())) }
             }
         }
     }

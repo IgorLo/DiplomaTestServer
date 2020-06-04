@@ -13,7 +13,7 @@ object Utils {
     fun randomGroupName(): String = Faker
         .instance()
         .number()
-        .numberBetween(11111, 99999)
+        .numberBetween(11111, 49999)
         .toString()
         .plus("/")
         .plus(

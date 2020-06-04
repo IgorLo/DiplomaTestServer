@@ -135,4 +135,154 @@ object Controller {
         StorageHelper.studentSetRepository.save(session, set)
     }
 
+    fun getAllSchools(): String {
+        val result = StorageHelper.transaction {
+            return@transaction StorageHelper.TransactionResult(
+                false,
+                StorageHelper.schoolRepository.findAllEntities<Entities.School>(it)
+            )
+        }
+        return if (result.isEmpty){
+            Klaxon().toJsonString(emptyArray<Entities.School>())
+        } else {
+            Klaxon().toJsonString(result.get())
+        }
+    }
+
+    fun getSchool(id: Long): String {
+        val result = StorageHelper.transaction {
+            return@transaction StorageHelper.TransactionResult(
+                false,
+                StorageHelper.schoolRepository.findById<Entities.School>(
+                    it, id
+                )
+            )
+        }
+        return if (result.isEmpty){
+            Klaxon().toJsonString(null)
+        } else {
+            Klaxon().toJsonString(result.get())
+        }
+    }
+
+    fun getAllActivities(): String {
+        val result = StorageHelper.transaction {
+            return@transaction StorageHelper.TransactionResult(
+                false,
+                StorageHelper.activityRepository.findAllEntities<Entities.Activity>(it)
+            )
+        }
+        return if (result.isEmpty){
+            Klaxon().toJsonString(emptyArray<Entities.Activity>())
+        } else {
+            Klaxon().toJsonString(result.get())
+        }
+    }
+
+    fun getActivity(id: Long): String {
+        val result = StorageHelper.transaction {
+            return@transaction StorageHelper.TransactionResult(
+                false,
+                StorageHelper.activityRepository.findById<Entities.Activity>(
+                    it, id
+                )
+            )
+        }
+        return if (result.isEmpty){
+            Klaxon().toJsonString(null)
+        } else {
+            Klaxon().toJsonString(result.get())
+        }
+    }
+
+    fun getAllTeachers(): String {
+        val result = StorageHelper.transaction {
+            return@transaction StorageHelper.TransactionResult(
+                false,
+                StorageHelper.teacherRepository.findAllEntities<Entities.Teacher>(it)
+            )
+        }
+        return if (result.isEmpty){
+            Klaxon().toJsonString(emptyArray<Entities.Teacher>())
+        } else {
+            Klaxon().toJsonString(result.get())
+        }
+    }
+
+    fun getTeacher(id: Long): String {
+        val result = StorageHelper.transaction {
+            return@transaction StorageHelper.TransactionResult(
+                false,
+                StorageHelper.teacherRepository.findById<Entities.Teacher>(
+                    it, id
+                )
+            )
+        }
+        return if (result.isEmpty){
+            Klaxon().toJsonString(null)
+        } else {
+            Klaxon().toJsonString(result.get())
+        }
+    }
+
+    fun getAllPlans(): String {
+        val result = StorageHelper.transaction {
+            return@transaction StorageHelper.TransactionResult(
+                false,
+                StorageHelper.planRepository.findAllEntities<Entities.Plan>(it)
+            )
+        }
+        return if (result.isEmpty){
+            Klaxon().toJsonString(emptyArray<Entities.Plan>())
+        } else {
+            Klaxon().toJsonString(result.get())
+        }
+    }
+
+    fun getPlan(id: Long): String {
+        val result = StorageHelper.transaction {
+            return@transaction StorageHelper.TransactionResult(
+                false,
+                StorageHelper.planRepository.findById<Entities.Plan>(
+                    it, id
+                )
+            )
+        }
+        return if (result.isEmpty){
+            Klaxon().toJsonString(null)
+        } else {
+            Klaxon().toJsonString(result.get())
+        }
+    }
+
+    fun getAllPlanTasks(): String {
+        val result = StorageHelper.transaction {
+            return@transaction StorageHelper.TransactionResult(
+                false,
+                StorageHelper.planTaskRepository.findAllEntities<Entities.PlanTask>(it)
+            )
+        }
+        return if (result.isEmpty){
+            Klaxon().toJsonString(emptyArray<Entities.PlanTask>())
+        } else {
+            Klaxon().toJsonString(result.get())
+        }
+    }
+
+    fun getPlanTask(id: Long): String {
+        val result = StorageHelper.transaction {
+            return@transaction StorageHelper.TransactionResult(
+                false,
+                StorageHelper.planTaskRepository.findById<Entities.PlanTask>(
+                    it, id
+                )
+            )
+        }
+        return if (result.isEmpty){
+            Klaxon().toJsonString(null)
+        } else {
+            Klaxon().toJsonString(result.get())
+        }
+    }
+
 }
