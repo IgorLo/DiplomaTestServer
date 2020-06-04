@@ -154,7 +154,9 @@ object Entities {
         @ManyToOne(fetch = FetchType.EAGER)
         var school: School? = null
 
-        @Json(ignored = true)
+        @Transient
+        var schoolName: String? = null
+
         @OneToMany(cascade = [CascadeType.ALL], mappedBy = "teacher", fetch = FetchType.EAGER)
         var tasks: MutableSet<PlanTask> = mutableSetOf()
 
@@ -172,6 +174,7 @@ object Entities {
         @PostLoad
         private fun postLoad() {
             currentHours = tasks.map { it.hours }.sum() //TODO умный расчёт
+            schoolName = school?.name
         }
     }
 

@@ -86,13 +86,13 @@ fun main() {
 
     sets.forEach { set ->
         groups.forEach { group ->
-            if (randomEvent(0.5)) {
+            if (randomEvent(0.05)) {
                 group.sets.add(set)
                 set.groups.add(group)
             }
         }
         students.forEach { student ->
-            if (randomEvent(0.5)) {
+            if (randomEvent(0.05)) {
                 student.sets.add(set)
                 set.students.add(student)
             }
@@ -110,7 +110,7 @@ fun main() {
         teacher.school = schools.random()
         teacher.fromHours = Random.nextInt(200, 220)
         teacher.toHours = Random.nextInt(230, 250)
-        teacher.rate = Random.nextDouble()
+        teacher.rate = Random.nextInt(100) / 100.0
         teacher.name = Faker.instance().name().fullName()
         teachers.add(teacher)
     }

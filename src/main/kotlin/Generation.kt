@@ -1,13 +1,13 @@
 object Generation {
 
-    const val GROUPS = 10
-    const val STUDENTS = 300
-    const val STUDENT_SETS = 30
-    const val TEACHERS = 10
+    const val GROUPS = 20
+    const val STUDENTS = 600
+    const val STUDENT_SETS = 60
+    const val TEACHERS = 15
     const val ACTIVITIES = 30
     const val SCHOOLS = 4
-    const val PLANS = 5
-    const val PLAN_TASKS = 50
+    const val PLANS = 6
+    const val PLAN_TASKS = 200
 
     val DEFAULT_SCHOOL_NAMES = listOf(
         "Высшая школа инженерной педагогики, психологии и прикладной лингвистики",
