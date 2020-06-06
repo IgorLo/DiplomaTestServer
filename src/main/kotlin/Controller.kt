@@ -15,7 +15,7 @@ object Controller {
                 )
             )
         }
-        return if (result.isEmpty){
+        return if (result.isEmpty) {
             Klaxon().toJsonString(null)
         } else {
             Klaxon().toJsonString(result.get())
@@ -31,7 +31,7 @@ object Controller {
                 )
             )
         }
-        return if (result.isEmpty){
+        return if (result.isEmpty) {
             Klaxon().toJsonString(null)
         } else {
             Klaxon().toJsonString(result.get())
@@ -47,7 +47,7 @@ object Controller {
                 )
             )
         }
-        return if (result.isEmpty){
+        return if (result.isEmpty) {
             Klaxon().toJsonString(null)
         } else {
             Klaxon().toJsonString(result.get())
@@ -61,7 +61,7 @@ object Controller {
                 StorageHelper.studentRepository.findAllEntities<Entities.Student>(it)
             )
         }
-        return if (result.isEmpty){
+        return if (result.isEmpty) {
             Klaxon().toJsonString(emptyArray<Entities.Student>())
         } else {
             Klaxon().toJsonString(result.get())
@@ -75,7 +75,7 @@ object Controller {
                 StorageHelper.groupRepository.findAllEntities<Entities.Group>(it)
             )
         }
-        return if (result.isEmpty){
+        return if (result.isEmpty) {
             Klaxon().toJsonString(emptyArray<Entities.Group>())
         } else {
             Klaxon().toJsonString(result.get())
@@ -89,7 +89,7 @@ object Controller {
                 StorageHelper.studentSetRepository.findAllEntities<Entities.StudentSet>(it)
             )
         }
-        return if (result.isEmpty){
+        return if (result.isEmpty) {
             Klaxon().toJsonString(emptyArray<Entities.Student>())
         } else {
             Klaxon().toJsonString(result.get())
@@ -103,7 +103,7 @@ object Controller {
             StorageHelper.studentSetRepository.save(session, newStudentSet)
             request.studentIds.forEach { studentId ->
                 val student = StorageHelper.studentRepository.findById<Entities.Student>(session, studentId)
-                if (student == null){
+                if (student == null) {
                     return@forEach
                 } else {
                     addStudentToSet(session, student, newStudentSet)
@@ -111,7 +111,7 @@ object Controller {
             }
             request.groupIds.forEach { groupId ->
                 val group = StorageHelper.groupRepository.findById<Entities.Group>(session, groupId)
-                if (group == null){
+                if (group == null) {
                     return@forEach
                 } else {
                     addGroupToSet(session, group, newStudentSet)
@@ -121,14 +121,47 @@ object Controller {
         }
     }
 
-    fun addStudentToSet(session: Session, student: Entities.Student, set: Entities.StudentSet){
+    fun changePlanTaskTeacher(request: Requests.PlanTaskTeacherChange) {
+        StorageHelper.transaction {
+            val newTeacher = StorageHelper.teacherRepository.findById<Entities.Teacher>(it, request.teacherId)
+            val planTask = StorageHelper.planTaskRepository.findById<Entities.PlanTask>(it, request.taskId)
+            val oldTeacher = planTask?.teacher
+            if (planTask == null) {
+                return@transaction StorageHelper.TransactionResult(false, null)
+            }
+            if (newTeacher == null) {
+                planTask.teacher = null
+                if (oldTeacher != null) {
+                    oldTeacher.tasks.remove(planTask)
+                    StorageHelper.teacherRepository.save(it, oldTeacher)
+                }
+                StorageHelper.planTaskRepository.save(it, planTask)
+                return@transaction StorageHelper.TransactionResult(false, null)
+            } else {
+                if (!newTeacher.activities.contains(planTask.activity)) {
+                    return@transaction StorageHelper.TransactionResult(false, null)
+                }
+                planTask.teacher = newTeacher
+                newTeacher.tasks.add(planTask)
+                if (oldTeacher != null) {
+                    oldTeacher.tasks.remove(planTask)
+                    StorageHelper.teacherRepository.save(it, oldTeacher)
+                }
+                StorageHelper.planTaskRepository.save(it, planTask)
+                StorageHelper.teacherRepository.save(it, newTeacher)
+                return@transaction StorageHelper.TransactionResult(false, null)
+            }
+        }
+    }
+
+    fun addStudentToSet(session: Session, student: Entities.Student, set: Entities.StudentSet) {
         student.sets.add(set)
         set.students.add(student)
         StorageHelper.studentRepository.save(session, student)
         StorageHelper.studentSetRepository.save(session, set)
     }
 
-    fun addGroupToSet(session: Session, group: Entities.Group, set: Entities.StudentSet){
+    fun addGroupToSet(session: Session, group: Entities.Group, set: Entities.StudentSet) {
         group.sets.add(set)
         set.groups.add(group)
         StorageHelper.groupRepository.save(session, group)
@@ -142,7 +175,7 @@ object Controller {
                 StorageHelper.schoolRepository.findAllEntities<Entities.School>(it)
             )
         }
-        return if (result.isEmpty){
+        return if (result.isEmpty) {
             Klaxon().toJsonString(emptyArray<Entities.School>())
         } else {
             Klaxon().toJsonString(result.get())
@@ -158,7 +191,7 @@ object Controller {
                 )
             )
         }
-        return if (result.isEmpty){
+        return if (result.isEmpty) {
             Klaxon().toJsonString(null)
         } else {
             Klaxon().toJsonString(result.get())
@@ -172,7 +205,7 @@ object Controller {
                 StorageHelper.activityRepository.findAllEntities<Entities.Activity>(it)
             )
         }
-        return if (result.isEmpty){
+        return if (result.isEmpty) {
             Klaxon().toJsonString(emptyArray<Entities.Activity>())
         } else {
             Klaxon().toJsonString(result.get())
@@ -188,7 +221,7 @@ object Controller {
                 )
             )
         }
-        return if (result.isEmpty){
+        return if (result.isEmpty) {
             Klaxon().toJsonString(null)
         } else {
             Klaxon().toJsonString(result.get())
@@ -202,7 +235,7 @@ object Controller {
                 StorageHelper.teacherRepository.findAllEntities<Entities.Teacher>(it)
             )
         }
-        return if (result.isEmpty){
+        return if (result.isEmpty) {
             Klaxon().toJsonString(emptyArray<Entities.Teacher>())
         } else {
             Klaxon().toJsonString(result.get())
@@ -218,7 +251,7 @@ object Controller {
                 )
             )
         }
-        return if (result.isEmpty){
+        return if (result.isEmpty) {
             Klaxon().toJsonString(null)
         } else {
             Klaxon().toJsonString(result.get())
@@ -232,7 +265,7 @@ object Controller {
                 StorageHelper.planRepository.findAllEntities<Entities.Plan>(it)
             )
         }
-        return if (result.isEmpty){
+        return if (result.isEmpty) {
             Klaxon().toJsonString(emptyArray<Entities.Plan>())
         } else {
             Klaxon().toJsonString(result.get())
@@ -248,7 +281,7 @@ object Controller {
                 )
             )
         }
-        return if (result.isEmpty){
+        return if (result.isEmpty) {
             Klaxon().toJsonString(null)
         } else {
             Klaxon().toJsonString(result.get())
@@ -262,7 +295,7 @@ object Controller {
                 StorageHelper.planTaskRepository.findAllEntities<Entities.PlanTask>(it)
             )
         }
-        return if (result.isEmpty){
+        return if (result.isEmpty) {
             Klaxon().toJsonString(emptyArray<Entities.PlanTask>())
         } else {
             Klaxon().toJsonString(result.get())
@@ -278,8 +311,35 @@ object Controller {
                 )
             )
         }
-        return if (result.isEmpty){
+        return if (result.isEmpty) {
             Klaxon().toJsonString(null)
+        } else {
+            Klaxon().toJsonString(result.get())
+        }
+    }
+
+    fun getSuitableTeachers(taskId: Long): String {
+        val result = StorageHelper.transaction {
+            val task = StorageHelper.planTaskRepository.findById<Entities.PlanTask>(it, taskId);
+            if (task == null){
+                return@transaction StorageHelper.TransactionResult<List<Entities.Teacher>>(
+                    false,
+                    emptyList()
+                )
+            }
+            val suitableTeachers = StorageHelper
+                .teacherRepository
+                .findAllEntities<Entities.Teacher>(it)
+                ?.filter { teacher ->
+                    teacher.activities.contains(task.activity)
+                }
+            return@transaction StorageHelper.TransactionResult<List<Entities.Teacher>>(
+                false,
+                suitableTeachers
+            )
+        }
+        return if (result.isEmpty) {
+            Klaxon().toJsonString(emptyArray<Entities.Teacher>())
         } else {
             Klaxon().toJsonString(result.get())
         }

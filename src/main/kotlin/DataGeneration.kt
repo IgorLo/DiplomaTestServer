@@ -166,7 +166,7 @@ fun main() {
         planTask.group = groups.random()
         planTask.plan = plans.random()
         planTask.planId = planTask.plan?.id
-        if (randomEvent(0.2)){
+        if (randomEvent(0.6)){
             val suitableTeacher = teachers.filter { teacher ->
                 teacher.activities.contains(planTask!!.activity)
             }.random() //TODO брать наименее нагруженного

@@ -15,7 +15,7 @@ repositories {
 
 dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-    implementation 'com.beust:klaxon:5.0.1'
+    implementation 'com.beust:klaxon:5.0.5'
     implementation 'com.github.javafaker:javafaker:1.0.2'
     compile "org.postgresql:postgresql:42.1.4"
     compile "org.hibernate:hibernate-core:5.4.15.Final"

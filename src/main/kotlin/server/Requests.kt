@@ -8,4 +8,9 @@ object Requests {
         val groupIds: List<Long>
     )
 
+    data class PlanTaskTeacherChange (
+        val taskId: Long,
+        val teacherId: Long
+    )
+
 }

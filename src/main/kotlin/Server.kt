@@ -66,6 +66,21 @@ fun main() {
                 get { ctx -> ctx.result(Controller.getPlanTask(ctx.pathParam("id").toLong())) }
             }
         }
+        path("changeTask") {
+            post { ctx ->
+                val request = Klaxon().parse<Requests.PlanTaskTeacherChange>(ctx.body())
+                if (request == null) {
+                    ctx.status(500)
+                } else {
+                    Controller.changePlanTaskTeacher(request)
+                }
+            }
+        }
+        path("suitableTeachers") {
+            path(":id") {
+                get { ctx -> ctx.result(Controller.getSuitableTeachers(ctx.pathParam("id").toLong())) }
+            }
+        }
     }
 
     app.start(3000)

@@ -19,6 +19,7 @@
         <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">false</property>
 
+<!--        <property name="hbm2ddl.auto">create-drop</property>-->
         <property name="hbm2ddl.auto">update</property>
     </session-factory>
 </hibernate-configuration>
