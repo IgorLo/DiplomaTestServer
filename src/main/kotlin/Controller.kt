@@ -129,7 +129,7 @@ object Controller {
             if (planTask == null) {
                 return@transaction StorageHelper.TransactionResult(false, null)
             }
-            if (newTeacher == null) {
+            if (newTeacher == null || request.teacherId == -1L) {
                 planTask.teacher = null
                 if (oldTeacher != null) {
                     oldTeacher.tasks.remove(planTask)
@@ -321,7 +321,7 @@ object Controller {
     fun getSuitableTeachers(taskId: Long): String {
         val result = StorageHelper.transaction {
             val task = StorageHelper.planTaskRepository.findById<Entities.PlanTask>(it, taskId);
-            if (task == null){
+            if (task == null) {
                 return@transaction StorageHelper.TransactionResult<List<Entities.Teacher>>(
                     false,
                     emptyList()
@@ -340,6 +340,30 @@ object Controller {
         }
         return if (result.isEmpty) {
             Klaxon().toJsonString(emptyArray<Entities.Teacher>())
+        } else {
+            Klaxon().toJsonString(result.get())
+        }
+    }
+
+    fun getPossibleTasks(teacherId: Long): String {
+        val result = StorageHelper.transaction {session ->
+            val teacher = StorageHelper.teacherRepository.findById<Entities.Teacher>(session, teacherId)
+            if (teacher == null) {
+                return@transaction StorageHelper.TransactionResult<List<Entities.PlanTask>>(
+                    false,
+                    emptyList()
+                )
+            }
+            val allTasks = StorageHelper.planTaskRepository.findAllEntities<Entities.PlanTask>(session)
+            return@transaction StorageHelper.TransactionResult<List<Entities.PlanTask>>(
+                false,
+                allTasks!!.filter {task ->
+                    (teacher.activities.contains(task.activity) && task.teacher != teacher)
+                }
+            )
+        }
+        return if (result.isEmpty) {
+            Klaxon().toJsonString(emptyArray<Entities.PlanTask>())
         } else {
             Klaxon().toJsonString(result.get())
         }

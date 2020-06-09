@@ -8,7 +8,7 @@
         <property name="connection.driver_class">org.postgresql.Driver</property>
         <property name="connection.url">jdbc:postgresql://127.0.0.1:5432/diploma</property>
 
-        <property name="connection.pool_size">2</property>
+        <property name="connection.pool_size">4</property>
 
         <!-- SQL dialect -->
         <property name="dialect">org.hibernate.dialect.PostgreSQL95Dialect</property>

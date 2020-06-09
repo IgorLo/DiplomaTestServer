@@ -47,6 +47,12 @@ fun main() {
 
     StorageHelper.schoolRepository.saveAll(schools)
 
+    for (plan in plans){
+        plan.school = schools.random()
+    }
+
+    StorageHelper.planRepository.saveOrUpdateAll(plans)
+
     val groups = mutableListOf<Group>()
     for (i in 1..Generation.GROUPS) {
         val group = Group()
@@ -108,7 +114,7 @@ fun main() {
     for (i in 1..Generation.TEACHERS) {
         val teacher = Entities.Teacher()
         teacher.school = schools.random()
-        teacher.fromHours = Random.nextInt(200, 220)
+        teacher.fromHours = Random.nextInt(150, 180)
         teacher.toHours = Random.nextInt(230, 250)
         teacher.rate = Random.nextInt(100) / 100.0
         teacher.name = Faker.instance().name().fullName()

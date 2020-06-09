@@ -274,6 +274,13 @@ object Entities {
         @Transient
         var totalHours: Int = -1
 
+        @Json(ignored = true)
+        @ManyToOne(fetch = FetchType.EAGER)
+        var school: School? = null
+
+        @Transient
+        var schoolName: String? = ""
+
         @Transient
         var currentHours: Int = -1
 
@@ -285,6 +292,7 @@ object Entities {
                     currentHours += task.hours
                 }
             }
+            schoolName = school?.name
         }
     }
 

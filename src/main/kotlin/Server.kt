@@ -2,7 +2,6 @@ import com.beust.klaxon.Klaxon
 import io.javalin.Javalin
 import io.javalin.apibuilder.ApiBuilder.*
 import server.Requests
-import storage.StorageHelper
 
 fun main() {
     val app = Javalin.create { config ->
@@ -79,6 +78,11 @@ fun main() {
         path("suitableTeachers") {
             path(":id") {
                 get { ctx -> ctx.result(Controller.getSuitableTeachers(ctx.pathParam("id").toLong())) }
+            }
+        }
+        path("possibleTasks") {
+            path(":id") {
+                get { ctx -> ctx.result(Controller.getPossibleTasks(ctx.pathParam("id").toLong())) }
             }
         }
     }
