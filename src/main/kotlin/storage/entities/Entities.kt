@@ -268,6 +268,9 @@ object Entities {
         @Column(unique = false, nullable = false)
         lateinit var name: String
 
+        @Column(unique = false, nullable = false)
+        lateinit var spec: String
+
         @OneToMany(cascade = [CascadeType.ALL], mappedBy = "plan", fetch = FetchType.EAGER)
         var tasks: MutableSet<PlanTask> = mutableSetOf()
 

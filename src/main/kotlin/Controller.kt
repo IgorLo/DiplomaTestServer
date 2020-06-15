@@ -331,15 +331,16 @@ object Controller {
                 .teacherRepository
                 .findAllEntities<Entities.Teacher>(it)
                 ?.filter { teacher ->
-                    if (teacher.activities.contains(task.activity)){
-                        if (task.teacher == null){
-                            return@filter true
-                        } else {
-                            return@filter task.teacher != teacher
-                        }
-                    } else {
-                        return@filter false
-                    }
+                    teacher.activities.contains(task.activity)
+//                    if (teacher.activities.contains(task.activity)){
+//                        if (task.teacher == null){
+//                            return@filter true
+//                        } else {
+//                            return@filter task.teacher != teacher
+//                        }
+//                    } else {
+//                        return@filter false
+//                    }
                 }
             return@transaction StorageHelper.TransactionResult<List<Entities.Teacher>>(
                 false,

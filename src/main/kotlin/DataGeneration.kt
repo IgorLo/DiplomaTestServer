@@ -19,6 +19,7 @@ fun main() {
     for (i in 1..Generation.PLANS){
         val plan = Entities.Plan()
         plan.name = "План №$i"
+        plan.spec = Generation.TRAINING_SPEC.random() + "_" + Generation.TRAINING_SUBSPEC.random()
         plans.add(plan)
     }
 
